@@ -1,0 +1,96 @@
+﻿@model CheckoutModel
+@{
+    ViewBag.Title = "Cart";
+}
+
+<article id="content" class="push">
+    <section class="half">
+        
+        @if (Model.isWishList)
+        {
+            <h2>WISHLIST</h2>
+        }
+        else
+        {
+            <h2>CART</h2>
+        }
+
+        @foreach (var item in Model.shoppingCart)
+        {
+            <div class="col-md-3">
+                <div class="small_movie_container">
+                    <img src="@Url.Content("https://tallanvideo.azureedge.net/videostore1/" + item.Inventory.Image)" class="small_movie" />
+                </div>
+                <h5>@item.Inventory.Description</h5>
+                @Html.Encode("$" + item.Inventory.Price * item.Quantity)
+
+                @using (@Html.BeginForm("ChangeQuantity", "Cart", FormMethod.Post, new { id="change-quantity" }))
+                {
+                    @Html.HiddenFor(m => m.isWishList)
+                    @Html.HiddenFor(m => m.shoppingCart.Where(x => x.InventoryId == item.InventoryId).FirstOrDefault().InventoryId)
+                    @Html.HiddenFor(m => m.shoppingCart.Where(x => x.InventoryId == item.InventoryId).FirstOrDefault().CustomerId)
+                    @Html.HiddenFor(m => m.shoppingCart.Where(x => x.InventoryId == item.InventoryId).FirstOrDefault().InventoryId)
+                    @Html.HiddenFor(m => m.shoppingCart.Where(x => x.InventoryId == item.InventoryId).FirstOrDefault().CartId)
+                    @Html.HiddenFor(m => m.shoppingCart.Where(x => x.InventoryId == item.InventoryId).FirstOrDefault().IsWishList)
+                    @Html.EditorFor(m => m.shoppingCart.Where(x => x.InventoryId == item.InventoryId).FirstOrDefault().Quantity)
+
+                    <input type="submit" />
+                }
+
+                <ul class="cart_options">
+
+                    <li>
+                        <a href="@Url.Action("DeleteFromCart", "Cart", new { inventoryId = item.InventoryId, isWishlist = Model.isWishList })">
+                            <span class="add round">X</span><span class="link">Remove</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("SwitchCart", "Cart", new { inventoryId = item.InventoryId, isWishlist = Model.isWishList })">
+                            @if (Model.isWishList) {
+                                <span class="add">+</span><span class="link">Move to Cart</span>
+                            } else
+                            {
+                                <span class="add">+</span><span class="link">Move to Wishlist</span>
+                            }
+                        </a>           
+                    </li>
+                </ul>
+
+            </div>
+        }
+        @if (!Model.isWishList)
+        {
+            <div class="button" id="proceed_to_checkout">
+                <h4>Total Amount: $@Model.amount</h4>
+                <button type="submit">
+                    <a asp-area="" asp-controller="Cart" asp-action="Checkout" asp-route-customerId="@Model.customer.CustomerId">Proceed to Checkout</a>
+                </button>
+            </div>
+        }
+    </section>
+
+</article>
+
+
+@section Scripts
+{
+    <script>
+        $("#change-quantity").validate({
+            rules: {
+                Quantity: {
+                    required: true,
+                    number: true,
+                    min: 0
+                }
+            },
+            messages: {
+                Quantity: {
+                    required: "Please enter a quantity.",
+                    number: "Please enter a number.",
+                    min: "Please enter a positive quantity."
+                }
+            }
+        });
+    </script>
+
+}

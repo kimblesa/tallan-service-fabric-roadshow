@@ -1,0 +1,13 @@
+﻿@model VideoListModel
+@{
+    ViewBag.Title = @Model.selectedFormat + " Videos";
+}
+<div class="row">
+    <section class="half" id="left">
+        <h2>SPECIALS</h2>
+        <ul class="catalog">
+            @Html.Partial("_MovieListPartial", Model.specials)
+            
+        </ul>
+    </section>
+</div>

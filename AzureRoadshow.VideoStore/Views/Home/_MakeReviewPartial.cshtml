@@ -1,0 +1,32 @@
+﻿@model AzureRoadshow.VideoStore.Models.EF.VideoReview
+
+@using (Html.BeginForm("SubmitReview", "Home"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.HiddenFor(model => model.InventoryId)
+    @Html.HiddenFor(model => model.CustomerId)
+    @Html.HiddenFor(model => model.ReviewId)
+    
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Review)
+    </div>
+    <div class="editor-field">
+        @Html.TextAreaFor(model => model.Review, 5, 20, new {})
+        @Html.ValidationMessageFor(model => model.Review)
+    </div>
+        
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Rating)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Rating)
+        @Html.ValidationMessageFor(model => model.Rating)
+    </div>
+            
+    <p>
+        <input type="submit" value="Submit" />
+    </p>
+}
+

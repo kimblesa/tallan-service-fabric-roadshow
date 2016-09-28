@@ -1,0 +1,119 @@
+﻿@model VideoWrapperModel
+@{
+    ViewBag.Title = "SingleVideo";
+}
+
+<div class="container">
+    <div class="col-lg-6" id="single">
+        <div class="row">
+            <h2>@Html.DisplayFor(model => model.video.Title)</h2>
+            <div class="col-sm-4">
+                <img src="@Url.Content("https://tallanvideo.azureedge.net/videostore1/" + Model.image)" class="small_movie" />
+            </div>
+            <div class="col-sm-4">
+                <div id="description">
+                    <p>@Html.DisplayFor(model => model.video.Description)</p>
+                </div>
+                @Html.Raw("$" + Model.price)
+                <br />
+                <p>rate:</p>
+                <div class="rating">
+                    @for (int i = 5; i >= 1; i--)
+                    {
+                        var star = (i <= Model.userReview.Rating) ? "★" : "☆";
+                        <span>@star</span>
+                    }
+                </div>
+                <br />
+                <br />
+                <a href="@Url.Action("AddToCart", "Cart", new { inventoryId = Model.inventoryId, isWishlist = false })">
+                    <span class="add">+ </span><span class="link">Add to Cart</span>
+                </a>
+                <a href="@Url.Action("AddToCart", "Cart", new { inventoryId = Model.inventoryId, isWishlist = true })">
+                    <span class="add">+ </span><span class="link">Add to Wishlist</span>
+                </a>
+            </div>
+            <div class="col-sm-4">
+                <strong>Actors:</strong>
+                <br />
+                @foreach (var actor in Model.video.ActorToVideo.ToList())
+                {
+                    //@Html.DisplayFor(model => actor.ActorName)
+                    //@Html.Encode("<br />")
+                    <div>@actor.Actor.ActorName</div>
+                }
+                <br />
+                <strong>Producers:</strong>
+                <br />
+                @foreach (var producer in Model.video.ProducerToVideo.ToList())
+                {
+                    //Html.DisplayFor(model => producer.ProducerName);
+                    //@Html.Encode("<br />")
+                    <div>@producer.Producer.ProducerName</div>
+                }
+                <br />
+                <strong>Length:</strong>
+                <br />
+                @Html.DisplayFor(model => model.video.Length)
+                <br />
+                <br />
+                <strong>Format:</strong>
+                <br />
+                @foreach (var format in Model.video.FormatToVideo.ToList())
+            {
+                    <div>@format.Format.FormatName</div>
+                }
+
+                <br />
+                <strong>Tags:</strong>
+                <br />
+                @foreach (var tag in Model.video.TagToVideo.ToList())
+                {
+                    <div>@tag.Tag.TagDescription</div>
+                }
+                <br />
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6" id="reviews">
+        <h2>REVIEWS</h2>
+        @foreach (var review in Model.Reviews)
+        {
+            <div class="third">
+                <h3>Review: @review.Customer.Email</h3>
+                <div class="rating">
+                    @for (int i = 5; i >= 1; i--)
+                    {
+                        var star = (i <= review.Rating) ? "★" : "☆";
+                        <span>@star</span>
+                    }
+                </div>
+                <br />
+                <br />
+                <p>@review.Review</p>
+            </div>
+        }
+        <a class="makereview"><span class="add">+ </span><span class="link">Add a review</span></a>
+
+        <div id="review">
+            @Html.Partial("_MakeReviewPartial", Model.userReview)
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#review").hide();
+        });
+
+        $('a.makereview').on('click', function (e) {
+            e.preventDefault();
+            $("#review").show();
+        });
+
+    </script>
+}

@@ -1,0 +1,47 @@
+﻿@model CheckoutModel
+
+@{
+    ViewBag.Title = "Checkout";
+}
+
+<article id="content" class="push">
+    <section class="half">
+        <h2>CHECKOUT</h2>
+        <div class="third">
+            @*<h3>Shipping Address</h3>
+            <p>Mr. John Doe</p>
+            <p>123 Fake St.</p>
+            <p>Notarealtown, CT 12345</p>*@
+            @Html.Partial("~/Views/Account/_ViewAddressPartial.cshtml", Model.billing.shippingAddress)
+        </div>
+        <div class="third">
+            @*<h3>Payment Method</h3>
+            <p>Credit Card ending in XXXX</p>*@
+            @Html.Partial("~/Views/Account/_UserInfoPartial.cshtml", Model.billing.billingInformation)
+            <a href="#">Change</a>
+        </div>
+        <div class="third" id="spacer">
+            <h3>Enter coupon/discount code:
+                <br />
+                <br />
+                <input type="text" name="coupon"></h3>
+            <br />
+            <br />
+            @*<div class="button" id="proceed_to_checkout">
+                <button type="submit"><a href="checkout.html">Confirm</a></button>
+
+            </div>*@
+            @using (Html.BeginForm("MakePurchase", "Cart"))
+            {
+                @Html.Hidden("customerId", Model.customer.CustomerId)
+                @Html.RadioButton("paymentType", "CreditCard", true)
+                @Html.Raw("Pay With Credit Card")
+                @Html.RadioButton("paymentType", "PhysicalBill")
+                @Html.Raw("Pay With Bill")
+                <button type="submit">Confirm</button>
+            }
+        </div>
+
+    </section>
+
+</article>

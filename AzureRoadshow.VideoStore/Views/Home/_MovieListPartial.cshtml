@@ -1,0 +1,31 @@
+﻿@model IEnumerable<VideoWrapperModel>
+
+@foreach (var item in Model)
+{
+    <li class="video">
+        <a href="@Url.Action("SingleVideo", "Home", new { inventoryId = item.inventoryId })">
+            @if (!string.IsNullOrWhiteSpace(item.image))
+            {
+                <div class="small_movie_container">
+                    <img src="@Url.Content("https://tallanvideo.azureedge.net/videostore1/" + item.image)" class="small_movie" />
+                </div>
+            }
+        </a>
+        <br />
+        @if (@item.video.Title.Length <= 12)
+        {
+            @Html.Encode(item.video.Title)
+        }
+        else
+        {
+            @Html.Encode(item.video.Title.Substring(0, 11) + "...")
+        }
+        <br />
+        @Html.Encode("$" + item.price)
+        <br />
+        <a href="@Url.Action("AddToCart", "Cart", new { item.inventoryId, isWishlist = false  })">
+            <span class="add">+ </span>
+            <span class="link">Add to Cart</span>
+        </a>
+    </li>
+}
