@@ -8,8 +8,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 
-namespace TestWebApi.Controllers
+namespace AzureRoadshow.PurchaseApi.Controllers
 {
+    [ServiceRequestActionFilter]
     [RoutePrefix("api/purchase")]
     public class PurchaseController : ApiController
     {

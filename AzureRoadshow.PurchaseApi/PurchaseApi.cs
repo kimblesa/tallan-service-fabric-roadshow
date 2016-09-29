@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 
-namespace TestWebApi
+namespace AzureRoadshow.PurchaseApi
 {
     /// <summary>
     /// The FabricRuntime creates an instance of this class for each service type instance. 
     /// </summary>
-    internal sealed class TestWebApi : StatelessService
+    internal sealed class PurchaseApi : StatelessService
     {
-        public TestWebApi(StatelessServiceContext context)
+        public PurchaseApi(StatelessServiceContext context)
             : base(context)
         { }
 

@@ -61,7 +61,6 @@ Global
 		{EFD8926C-3930-4ECF-B608-810B5982FEFA}.Release|x64.Build.0 = Release|x64
 		{69C31497-7EAE-4958-ADD5-968381BE739F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{69C31497-7EAE-4958-ADD5-968381BE739F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{69C31497-7EAE-4958-ADD5-968381BE739F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{69C31497-7EAE-4958-ADD5-968381BE739F}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{69C31497-7EAE-4958-ADD5-968381BE739F}.Debug|x64.Build.0 = Debug|Any CPU
 		{69C31497-7EAE-4958-ADD5-968381BE739F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -86,6 +85,8 @@ Global
 		{B01BF8A7-B622-4E73-AA52-A2F6CDA1097F}.Release|x64.ActiveCfg = Release|x64
 		{B01BF8A7-B622-4E73-AA52-A2F6CDA1097F}.Release|x64.Build.0 = Release|x64
 		{EDD06333-3D5D-494A-9F85-C92CBBB36FA7}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{EDD06333-3D5D-494A-9F85-C92CBBB36FA7}.Debug|Any CPU.Build.0 = Debug|x64
+		{EDD06333-3D5D-494A-9F85-C92CBBB36FA7}.Debug|Any CPU.Deploy.0 = Debug|x64
 		{EDD06333-3D5D-494A-9F85-C92CBBB36FA7}.Debug|x64.ActiveCfg = Debug|x64
 		{EDD06333-3D5D-494A-9F85-C92CBBB36FA7}.Debug|x64.Build.0 = Debug|x64
 		{EDD06333-3D5D-494A-9F85-C92CBBB36FA7}.Debug|x64.Deploy.0 = Debug|x64
@@ -96,15 +97,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 1
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.tallan.com:8181/tfs/tallan
-		SccProjectUniqueName0 = VideoStore_DB\\VideoStore_DB.sqlproj
-		SccProjectName0 = VideoStore_DB
-		SccAuxPath0 = https://tfs.tallan.com:8181/tfs/tallan
-		SccLocalPath0 = VideoStore_DB
-		SccProvider0 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 	EndGlobalSection
 EndGlobal

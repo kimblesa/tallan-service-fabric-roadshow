@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Fabric;
 using System.Globalization;
 using System.Threading;
@@ -8,7 +7,7 @@ using Microsoft.Owin.Hosting;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Owin;
 
-namespace TestWebApi
+namespace AzureRoadshow.PurchaseApi
 {
     internal class OwinCommunicationListener : ICommunicationListener
     {

@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Services.Runtime;
 
-namespace TestWebApi
+namespace AzureRoadshow.PurchaseApi
 {
     internal static class Program
     {
@@ -21,10 +21,10 @@ namespace TestWebApi
                 // When Service Fabric creates an instance of this service type,
                 // an instance of the class is created in this host process.
 
-                ServiceRuntime.RegisterServiceAsync("TestWebApiType",
-                    context => new TestWebApi(context)).GetAwaiter().GetResult();
+                ServiceRuntime.RegisterServiceAsync("PurchaseApiType",
+                    context => new PurchaseApi(context)).GetAwaiter().GetResult();
 
-                ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(TestWebApi).Name);
+                ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(PurchaseApi).Name);
 
                 // Prevents this host process from terminating so services keeps running. 
                 Thread.Sleep(Timeout.Infinite);

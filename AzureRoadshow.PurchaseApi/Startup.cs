@@ -1,7 +1,7 @@
 ﻿using System.Web.Http;
 using Owin;
 
-namespace TestWebApi
+namespace AzureRoadshow.PurchaseApi
 {
     public static class Startup
     {
