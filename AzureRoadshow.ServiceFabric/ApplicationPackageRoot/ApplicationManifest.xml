@@ -11,6 +11,7 @@
     <Parameter Name="LogicApiActorService_PartitionCount" DefaultValue="10" />
     <Parameter Name="LogicApiActorService_MinReplicaSetSize" DefaultValue="3" />
     <Parameter Name="LogicApiActorService_TargetReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="VideoStore_InstanceCount" DefaultValue="-1" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
        should match the Name and Version attributes of the ServiceManifest element defined in the 
@@ -27,6 +28,10 @@
   </ServiceManifestImport>
   <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="AzureRoadshow.PurchaseApiPkg" ServiceManifestVersion="1.0.0" />
+    <ConfigOverrides />
+  </ServiceManifestImport>
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="AzureRoadshow.VideoStorePkg" ServiceManifestVersion="1.0.0" />
     <ConfigOverrides />
   </ServiceManifestImport>
   <DefaultServices>
@@ -52,6 +57,11 @@
     </Service>
     <Service Name="PurchaseApi">
       <StatelessService ServiceTypeName="PurchaseApiType" InstanceCount="[PurchaseApi_InstanceCount]">
+        <SingletonPartition />
+      </StatelessService>
+    </Service>
+    <Service Name="VideoStore">
+      <StatelessService ServiceTypeName="VideoStoreType" InstanceCount="[VideoStore_InstanceCount]">
         <SingletonPartition />
       </StatelessService>
     </Service>

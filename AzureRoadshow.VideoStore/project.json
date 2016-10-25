@@ -2,7 +2,7 @@
   "userSecretsId": "aspnet-AzureRoadshow.VideoStore-53c55f90-5538-4efc-a365-96be5d9d7ac3",
 
   "dependencies": {
-    "BundlerMinifier.Core": "2.2.281",
+    "BundlerMinifier.Core": "2.2.296",
     "Microsoft.AspNetCore.Authentication.Cookies": "1.0.0",
     "Microsoft.AspNetCore.Diagnostics": "1.0.0",
     "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "1.0.0",
@@ -25,9 +25,9 @@
     "Microsoft.Extensions.Logging.Console": "1.0.0",
     "Microsoft.Extensions.Logging.Debug": "1.0.0",
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
-    "Microsoft.ServiceFabric": "5.2.207",
-    "Microsoft.ServiceFabric.Data": "2.2.207",
-    "Microsoft.ServiceFabric.Services": "2.2.207",
+    "Microsoft.ServiceFabric": "5.3.301",
+    "Microsoft.ServiceFabric.Data": "2.3.301",
+    "Microsoft.ServiceFabric.Services": "2.3.301",
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0",
     "Microsoft.VisualStudio.Web.CodeGeneration.Tools": {
       "version": "1.0.0-preview2-final",
