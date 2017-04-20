@@ -2,9 +2,6 @@
 
 For the series of Azure/Visual Studio workshops Tallan is participating in, we have provided an implementation of an Azure Service Fabric solution, with interconnected examples for multiple reliable service types.
 
-The next Tallan-hosted workshop will be in Massachusetts in October:
-<br/><https://www.eventbrite.com/e/microsoft-azure-visual-studio-workshop-boston-tickets-27183061268>
-
 ## Resources and Links
 For an overview of Service Fabric, refer to Microsoft's documentation:
 <br/><https://azure.microsoft.com/en-us/documentation/articles/service-fabric-overview/>
@@ -14,6 +11,8 @@ For another example of Service Fabric in action, refer to the Microsoft Samples 
 
 Bear in mind that to open the following code in Visual Studio, you will need Visual Studio 2015, along with the Service Fabric SDK (The Azure SDK would be helpful as well):
 <br/><https://azure.microsoft.com/en-us/documentation/articles/service-fabric-get-started/#install-the-runtime-sdk-and-tools>
+
+Opening this project with Visual Studio 2017 has a few issues when attempting to open this project, so using 2015 is recommended at this time. 
 
 ## Overview
 
