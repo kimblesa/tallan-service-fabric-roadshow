@@ -14,11 +14,11 @@ namespace AzureRoadshow.PurchaseApi.Controllers
     [RoutePrefix("api/purchase")]
     public class PurchaseController : ApiController
     {
-        IEventHubActor proxy;
+        IEventHubActor eventHubProxy;
         ILogicApiActor logicAppProxy;
         public PurchaseController()
         {
-            proxy = ActorProxy.Create<IEventHubActor>(ActorId.CreateRandom());
+            eventHubProxy = ActorProxy.Create<IEventHubActor>(ActorId.CreateRandom());
             logicAppProxy = ActorProxy.Create<ILogicApiActor>(ActorId.CreateRandom());
         }
 
@@ -26,14 +26,14 @@ namespace AzureRoadshow.PurchaseApi.Controllers
         [HttpPut]
         public void Put([FromBody]VideoPurchase value)
         {
-            proxy.SubmitPurchase(value);
+            eventHubProxy.SubmitPurchase(value);
         }
 
         [ActionName("list")]
         [HttpPut]
         public void PutList([FromBody]IEnumerable<VideoPurchase> purchaseList)
         {
-            proxy.SubmitPurchaseList(purchaseList);
+            eventHubProxy.SubmitPurchaseList(purchaseList);
         }
 
         [ActionName("random")]
@@ -43,7 +43,7 @@ namespace AzureRoadshow.PurchaseApi.Controllers
         {
             Random rnd = new Random();
 
-            await proxy.SubmitPurchase(VideoPurchaseFactory.CreateRandomPurchase(rnd));
+            await eventHubProxy.SubmitPurchase(VideoPurchaseFactory.CreateRandomPurchase(rnd));
         }
 
         [ActionName("randomList")]
@@ -52,7 +52,7 @@ namespace AzureRoadshow.PurchaseApi.Controllers
         public void PostRandomNumber([FromUri]int number)
         {
             Random rnd = new Random();
-            proxy.SubmitPurchaseList(Enumerable.Range(1, number).Select(x => VideoPurchaseFactory.CreateRandomPurchase(rnd)));
+            eventHubProxy.SubmitPurchaseList(Enumerable.Range(1, number).Select(x => VideoPurchaseFactory.CreateRandomPurchase(rnd)));
         }
 
 

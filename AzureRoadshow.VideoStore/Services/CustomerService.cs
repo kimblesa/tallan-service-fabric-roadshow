@@ -5,9 +5,9 @@ namespace AzureRoadshow.VideoStore.Services
     public class CustomerService
     {
         private VideoStoreContext _db;
-        public CustomerService()
+        public CustomerService(VideoStoreContext context)
         {
-            _db = new VideoStoreContext();
+            _db = context;
         }
 
         public void AddCustomer(string id, string email)

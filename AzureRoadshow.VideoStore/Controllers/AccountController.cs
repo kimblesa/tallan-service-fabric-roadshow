@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using AzureRoadshow.VideoStore.Models;
 using AzureRoadshow.VideoStore.Models.AccountViewModels;
+using AzureRoadshow.VideoStore.Models.EF;
 using AzureRoadshow.VideoStore.Services;
 
 namespace AzureRoadshow.VideoStore.Controllers
@@ -20,19 +21,22 @@ namespace AzureRoadshow.VideoStore.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
+        private readonly VideoStoreContext _db;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory,
+            VideoStoreContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
+            _db = context;
         }
 
         //
@@ -116,7 +120,7 @@ namespace AzureRoadshow.VideoStore.Controllers
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User created a new account with password.");
 
-                    var customerService = new CustomerService();
+                    var customerService = new CustomerService(_db);
                     customerService.AddCustomer(user.Id, user.Email);
 
                     return RedirectToLocal(returnUrl);

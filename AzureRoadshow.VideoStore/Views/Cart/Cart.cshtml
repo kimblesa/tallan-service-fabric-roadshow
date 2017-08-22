@@ -19,12 +19,12 @@
         {
             <div class="col-md-3">
                 <div class="small_movie_container">
-                    <img src="@Url.Content("https://tallanvideo.azureedge.net/videostore1/" + item.Inventory.Image)" class="small_movie" />
+                    <img src="@Url.Content("https://tallanroadshow.blob.core.windows.net/videostoreimg/" + item.Inventory.Image)" class="small_movie" />
                 </div>
                 <h5>@item.Inventory.Description</h5>
                 @Html.Encode("$" + item.Inventory.Price * item.Quantity)
 
-                @using (@Html.BeginForm("ChangeQuantity", "Cart", FormMethod.Post, new { id="change-quantity" }))
+                @using (@Html.BeginForm("ChangeQuantity", "Purchase", FormMethod.Post, new { id="change-quantity" }))
                 {
                     @Html.HiddenFor(m => m.isWishList)
                     @Html.HiddenFor(m => m.shoppingCart.Where(x => x.InventoryId == item.InventoryId).FirstOrDefault().InventoryId)
@@ -40,12 +40,12 @@
                 <ul class="cart_options">
 
                     <li>
-                        <a href="@Url.Action("DeleteFromCart", "Cart", new { inventoryId = item.InventoryId, isWishlist = Model.isWishList })">
+                        <a href="@Url.Action("DeleteFromCart", "Purchase", new { inventoryId = item.InventoryId, isWishlist = Model.isWishList })">
                             <span class="add round">X</span><span class="link">Remove</span>
                         </a>
                     </li>
                     <li>
-                        <a href="@Url.Action("SwitchCart", "Cart", new { inventoryId = item.InventoryId, isWishlist = Model.isWishList })">
+                        <a href="@Url.Action("SwitchCart", "Purchase", new { inventoryId = item.InventoryId, isWishlist = Model.isWishList })">
                             @if (Model.isWishList) {
                                 <span class="add">+</span><span class="link">Move to Cart</span>
                             } else
@@ -63,7 +63,7 @@
             <div class="button" id="proceed_to_checkout">
                 <h4>Total Amount: $@Model.amount</h4>
                 <button type="submit">
-                    <a asp-area="" asp-controller="Cart" asp-action="Checkout" asp-route-customerId="@Model.customer.CustomerId">Proceed to Checkout</a>
+                    <a asp-area="" asp-controller="Purchase" asp-action="Checkout" asp-route-customerId="@Model.customer.CustomerId">Proceed to Checkout</a>
                 </button>
             </div>
         }

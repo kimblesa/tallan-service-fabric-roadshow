@@ -8,7 +8,7 @@
         <div class="row">
             <h2>@Html.DisplayFor(model => model.video.Title)</h2>
             <div class="col-sm-4">
-                <img src="@Url.Content("https://tallanvideo.azureedge.net/videostore1/" + Model.image)" class="small_movie" />
+                <img src="@Url.Content("https://tallanroadshow.blob.core.windows.net/videostoreimg/" + Model.image)" class="small_movie" />
             </div>
             <div class="col-sm-4">
                 <div id="description">
@@ -26,10 +26,10 @@
                 </div>
                 <br />
                 <br />
-                <a href="@Url.Action("AddToCart", "Cart", new { inventoryId = Model.inventoryId, isWishlist = false })">
+                <a href="@Url.Action("AddToCart", "Purchase", new { inventoryId = Model.inventoryId, isWishlist = false })">
                     <span class="add">+ </span><span class="link">Add to Cart</span>
                 </a>
-                <a href="@Url.Action("AddToCart", "Cart", new { inventoryId = Model.inventoryId, isWishlist = true })">
+                <a href="@Url.Action("AddToCart", "Purchase", new { inventoryId = Model.inventoryId, isWishlist = true })">
                     <span class="add">+ </span><span class="link">Add to Wishlist</span>
                 </a>
             </div>

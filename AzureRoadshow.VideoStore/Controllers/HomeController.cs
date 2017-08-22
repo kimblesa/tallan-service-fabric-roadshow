@@ -11,9 +11,9 @@ namespace AzureRoadshow.VideoStore.Controllers
     public class HomeController : Controller
     {
         VideoStoreContext _db;
-        public HomeController()
+        public HomeController(VideoStoreContext context)
         {
-            _db = new VideoStoreContext();
+            _db = context;
         }
 
         /// <summary>

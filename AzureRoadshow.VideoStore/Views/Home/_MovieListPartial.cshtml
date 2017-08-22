@@ -7,7 +7,7 @@
             @if (!string.IsNullOrWhiteSpace(item.image))
             {
                 <div class="small_movie_container">
-                    <img src="@Url.Content("https://tallanvideo.azureedge.net/videostore1/" + item.image)" class="small_movie" />
+                    <img src="@Url.Content("https://tallanroadshow.blob.core.windows.net/videostoreimg/" + item.image)" class="small_movie" />
                 </div>
             }
         </a>
@@ -23,7 +23,7 @@
         <br />
         @Html.Encode("$" + item.price)
         <br />
-        <a href="@Url.Action("AddToCart", "Cart", new { item.inventoryId, isWishlist = false  })">
+        <a href="@Url.Action("AddToCart", "Purchase", new { item.inventoryId, isWishlist = false  })">
             <span class="add">+ </span>
             <span class="link">Add to Cart</span>
         </a>

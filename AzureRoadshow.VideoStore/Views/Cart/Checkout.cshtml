@@ -12,12 +12,21 @@
             <p>Mr. John Doe</p>
             <p>123 Fake St.</p>
             <p>Notarealtown, CT 12345</p>*@
-            @Html.Partial("~/Views/Account/_ViewAddressPartial.cshtml", Model.billing.shippingAddress)
+            @*@Html.Partial("~/Views/Account/_ViewAddressPartial.cshtml", Model.billing.shippingAddress)*@
+            <h3>Your Order:</h3>
+            <ul>
+                @foreach (var item in Model.shoppingCart)
+                {
+                    <li>@item.Inventory.Description</li>
+                }
+            </ul>
+            <br/>
+            <p>Total: $@Model.amount. Would you like to purchase?</p>
         </div>
         <div class="third">
             @*<h3>Payment Method</h3>
             <p>Credit Card ending in XXXX</p>*@
-            @Html.Partial("~/Views/Account/_UserInfoPartial.cshtml", Model.billing.billingInformation)
+            @*@Html.Partial("~/Views/Account/_UserInfoPartial.cshtml", Model.billing.billingInformation)*@
             <a href="#">Change</a>
         </div>
         <div class="third" id="spacer">
@@ -31,7 +40,7 @@
                 <button type="submit"><a href="checkout.html">Confirm</a></button>
 
             </div>*@
-            @using (Html.BeginForm("MakePurchase", "Cart"))
+            @using (Html.BeginForm("MakePurchase", "Purchase"))
             {
                 @Html.Hidden("customerId", Model.customer.CustomerId)
                 @Html.RadioButton("paymentType", "CreditCard", true)

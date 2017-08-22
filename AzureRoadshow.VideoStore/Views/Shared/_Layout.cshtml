@@ -36,7 +36,7 @@
                     <li> <a asp-area="" asp-controller="Home" asp-action="VideoList" asp-route-format="DVD">DVD</a> </li>
                     <li> <a asp-area="" asp-controller="Home" asp-action="VideoList" asp-route-format="Blu-Ray">BLU-RAY</a> </li>
                     <li> <a asp-area="" asp-controller="Home" asp-action="VideoList" asp-route-format="Stream">STREAM</a> </li>
-                    <li> <a asp-area="" asp-controller="Cart" asp-action="Cart" asp-route-isWishList="false">Cart</a></li>
+                    <li> <a asp-area="" asp-controller="Purchase" asp-action="Cart" asp-route-isWishList="false">Cart</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>

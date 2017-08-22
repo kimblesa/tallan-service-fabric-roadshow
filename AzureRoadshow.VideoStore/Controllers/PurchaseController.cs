@@ -20,7 +20,7 @@ using System.Text;
 namespace AzureRoadshow.VideoStore.Controllers
 {
     [Authorize]
-    public class CartController : Controller
+    public class PurchaseController : Controller
     {
         VideoStoreContext _db;
         UserManager<ApplicationUser> _userManager;
@@ -30,14 +30,14 @@ namespace AzureRoadshow.VideoStore.Controllers
         private readonly Uri cartServiceUri;
         private readonly Uri purchaseServiceApiUri;
 
-        public CartController(UserManager<ApplicationUser> userManager)
+        public PurchaseController(UserManager<ApplicationUser> userManager, VideoStoreContext context)
         {
             cartServiceUri = new Uri(FabricRuntime.GetActivationContext()
                 .ApplicationName + "/StatefulCart");
             purchaseServiceApiUri = new Uri(FabricRuntime.GetActivationContext()
-                .ApplicationName + "/TestWebApi");
+                .ApplicationName + "/PurchaseApi");
 
-            _db = new VideoStoreContext();
+            _db = context;
             _userManager = userManager;
 
             fabricClient = new FabricClient();
@@ -80,7 +80,7 @@ namespace AzureRoadshow.VideoStore.Controllers
                 Console.WriteLine(ex.Message);
             }
 
-            return View(cart);
+            return View("~/Views/Cart/Cart.cshtml", cart);
         }
 
         /// <summary>
@@ -115,8 +115,8 @@ namespace AzureRoadshow.VideoStore.Controllers
                     cart.amount += (item.Inventory.Price * item.Quantity);
                 }
 
-                cart.billing.billingAddress = customer.Address.Where(m => m.AddressType == "Billing").FirstOrDefault();
-                cart.billing.shippingAddress = customer.Address.Where(m => m.AddressType == "Shipping").FirstOrDefault();
+                cart.billing.billingAddress = customer.Address.FirstOrDefault(m => m.AddressType == "Billing");
+                cart.billing.shippingAddress = customer.Address.FirstOrDefault(m => m.AddressType == "Shipping");
                 if (cart.billing.billingAddress != null)
                 {
                     cart.billing.billingInformation = cart.billing.billingAddress.BillingInformation.FirstOrDefault();
@@ -128,7 +128,7 @@ namespace AzureRoadshow.VideoStore.Controllers
                 throw;
             }
 
-            return View(cart);
+            return View("~/Views/Cart/Checkout.cshtml", cart);
         }
 
         /// <summary>
@@ -147,7 +147,7 @@ namespace AzureRoadshow.VideoStore.Controllers
             {
                 // TODO SAK replace this with call to purchase API
                 Customer customer = _db.Customer
-                    .Where(m => m.CustomerId == customerId).FirstOrDefault();
+                    .FirstOrDefault(m => m.CustomerId == customerId);
 
                 var purchases = GetCart(customer.CustomerId)
                     .Where(x => !x.IsWishList);
@@ -242,7 +242,7 @@ namespace AzureRoadshow.VideoStore.Controllers
             }
             
             // TODO SAK redirect to error if not successful
-            return RedirectToAction("Cart", "Cart", new { isWishlist = isWishlist });
+            return RedirectToAction("Cart", "Purchase", new { isWishlist = isWishlist });
         }
 
         /// <summary>
@@ -267,7 +267,7 @@ namespace AzureRoadshow.VideoStore.Controllers
                 Console.WriteLine(ex.Message);
             }
 
-            return RedirectToAction("Cart", "Cart", new { isWishlist = isWishlist });
+            return RedirectToAction("Cart", "Purchase", new { isWishlist = isWishlist });
         }
 
         /// <summary>
@@ -280,14 +280,14 @@ namespace AzureRoadshow.VideoStore.Controllers
         {
             bool success = UpdateCartItem(modifiedCart);
 
-            return RedirectToAction("Cart", "Cart", new { isWishlist = modifiedCart.IsWishList });
+            return RedirectToAction("Cart", "Purchase", new { isWishlist = modifiedCart.IsWishList });
         }
 
         /// <summary>
         /// switch item between cart and wishlist
         /// </summary>
         /// <param name="inventoryId">The inventory item to move</param>
-        /// <param name="inventoryId">Which list is being modified</param>
+        /// <param name="isWishlist">Which list is being modified</param>
         /// <returns></returns>
         public ActionResult SwitchCart(int inventoryId, bool isWishlist)
         {
@@ -305,7 +305,7 @@ namespace AzureRoadshow.VideoStore.Controllers
                 Console.WriteLine(ex.Message);
             }
 
-            return RedirectToAction("Cart", "Cart", new { isWishlist = !(isWishlist) });
+            return RedirectToAction("Cart", "Purchase", new { isWishlist = !(isWishlist) });
         }
 
         private bool UpdateCartItem(CartItem newCartItem)
