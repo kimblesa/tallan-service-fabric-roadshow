@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using AzureRoadshow.VideoStore.Models;
 using AzureRoadshow.VideoStore.Models.AccountViewModels;
-using AzureRoadshow.VideoStore.Models.EF;
 using AzureRoadshow.VideoStore.Services;
+using AzureRoadshow.VideoStore.Models.EF;
 
 namespace AzureRoadshow.VideoStore.Controllers
 {

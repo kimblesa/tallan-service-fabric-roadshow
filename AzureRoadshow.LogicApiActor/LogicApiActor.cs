@@ -72,17 +72,16 @@ namespace LogicApiActor
                     client.DefaultRequestHeaders.Accept.Clear();
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/plain"));
 
-
-                    var response = await client.PostAsJsonAsync(string.Empty,
-                         JsonConvert.SerializeObject(new
-                         {
-                             customerId = rentalHistory.CustomerId,
-                             inventoryId = rentalHistory.InventoryId,
-                             videoId = rentalHistory.VideoId,
-                             startDate = rentalHistory.StartDate.ToString("MMMM dd, yyyy"),
-                             endDate = rentalHistory.EndDate.ToString("MMMM dd, yyyy"),
-                             transactionId = rentalHistory.TransactionId
-                         })).ConfigureAwait(false);
+                    var content = new StringContent(JsonConvert.SerializeObject(new
+                    {
+                        customerId = rentalHistory.CustomerId,
+                        inventoryId = rentalHistory.InventoryId,
+                        videoId = rentalHistory.VideoId,
+                        startDate = rentalHistory.StartDate.ToString("MMMM dd, yyyy"),
+                        endDate = rentalHistory.EndDate.ToString("MMMM dd, yyyy"),
+                        transactionId = rentalHistory.TransactionId
+                    }), System.Text.Encoding.UTF8, "application/json");
+                    var response = await client.PostAsync(string.Empty, content);
                 }
 
             }
@@ -109,17 +108,15 @@ namespace LogicApiActor
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/plain"));
 
                     string copyString = purchase.Quantity == 1 ? "copy" : "copies";
-
-                    var response = await client.PostAsJsonAsync(
-                        string.Empty,
-                        JsonConvert.SerializeObject(new
-                        {
-                            quantity = purchase.Quantity,
-                            price = purchase.Price,
-                            title = purchase.Title,
-                            phoneNumber = "##########",
-                            copyString = copyString
-                        })).ConfigureAwait(false);
+                    var content = new StringContent(JsonConvert.SerializeObject(new
+                    {
+                        quantity = purchase.Quantity,
+                        price = purchase.Price,
+                        title = purchase.Title,
+                        phoneNumber = "##########",
+                        copyString = copyString
+                    }), System.Text.Encoding.UTF8, "application/json");
+                    var response = await client.PostAsync(string.Empty, content);
                 }
 
             }

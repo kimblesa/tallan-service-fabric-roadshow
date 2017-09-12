@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +13,6 @@ using AzureRoadshow.VideoStore.Data;
 using AzureRoadshow.VideoStore.Models;
 using AzureRoadshow.VideoStore.Services;
 using AzureRoadshow.VideoStore.Models.EF;
-using Microsoft.AspNetCore.Http;
 
 namespace AzureRoadshow.VideoStore
 {
@@ -19,13 +22,13 @@ namespace AzureRoadshow.VideoStore
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
             if (env.IsDevelopment())
             {
-                // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
-                builder.AddUserSecrets();
+                // For more details on using the user secret store see https://go.microsoft.com/fwlink/?LinkID=532709
+                builder.AddUserSecrets<Startup>();
             }
 
             builder.AddEnvironmentVariables();
@@ -37,21 +40,18 @@ namespace AzureRoadshow.VideoStore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connection = Configuration.GetConnectionString("DefaultConnection");
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
             // Add framework services.
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(connection));
+                options.UseSqlServer(connectionString));
+            services.AddDbContext<VideoStoreContext>(options =>
+                options.UseSqlServer(connectionString));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddDbContext<VideoStoreContext>(options =>
-                options.UseSqlServer(connection));
-
             services.AddMvc();
-
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
@@ -79,7 +79,7 @@ namespace AzureRoadshow.VideoStore
 
             app.UseIdentity();
 
-            // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
+            // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
 
             app.UseMvc(routes =>
             {

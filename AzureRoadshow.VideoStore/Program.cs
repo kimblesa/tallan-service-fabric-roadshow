@@ -1,80 +1,38 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.ServiceFabric.Services.Communication.Runtime;
-using Microsoft.ServiceFabric.Services.Runtime;
-using System.Collections.Generic;
-using System.Fabric;
-using System.IO;
+﻿using Microsoft.ServiceFabric.Services.Runtime;
+using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace AzureRoadshow.VideoStore
 {
-    public class Program
+    internal static class Program
     {
-        // Entry point for the application.
-        public static void Main(string[] args)
-        {
-            ServiceRuntime.RegisterServiceAsync("VideoStoreType", context => new WebHostingService(context, "ServiceEndpoint")).GetAwaiter().GetResult();
-
-            Thread.Sleep(Timeout.Infinite);
-        }
-
         /// <summary>
-        /// A specialized stateless service for hosting ASP.NET Core web apps.
+        /// This is the entry point of the service host process.
         /// </summary>
-        internal sealed class WebHostingService : StatelessService, ICommunicationListener
+        private static void Main()
         {
-            private readonly string _endpointName;
-
-            private IWebHost _webHost;
-
-            public WebHostingService(StatelessServiceContext serviceContext, string endpointName)
-                : base(serviceContext)
+            try
             {
-                _endpointName = endpointName;
+                // The ServiceManifest.XML file defines one or more service type names.
+                // Registering a service maps a service type name to a .NET type.
+                // When Service Fabric creates an instance of this service type,
+                // an instance of the class is created in this host process.
+
+                ServiceRuntime.RegisterServiceAsync("AzureRoadshow.VideoStoreType",
+                    context => new VideoStore(context)).GetAwaiter().GetResult();
+
+                ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(VideoStore).Name);
+
+                // Prevents this host process from terminating so services keeps running. 
+                Thread.Sleep(Timeout.Infinite);
             }
-
-            #region StatelessService
-                      
-            protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()
+            catch (Exception e)
             {
-                return new[] { new ServiceInstanceListener(_ => this) };
-            }    
-
-            #endregion StatelessService
-
-            #region ICommunicationListener
-
-            void ICommunicationListener.Abort()
-            {
-                _webHost?.Dispose();
+                ServiceEventSource.Current.ServiceHostInitializationFailed(e.ToString());
+                throw;
             }
-
-            Task ICommunicationListener.CloseAsync(CancellationToken cancellationToken)
-            {
-                _webHost?.Dispose();
-
-                return Task.FromResult(true);
-            }
-
-            Task<string> ICommunicationListener.OpenAsync(CancellationToken cancellationToken)
-            {
-                var endpoint = FabricRuntime.GetActivationContext().GetEndpoint(_endpointName);
-
-                string serverUrl = $"{endpoint.Protocol}://{FabricRuntime.GetNodeContext().IPAddressOrFQDN}:{endpoint.Port}";
-
-                _webHost = new WebHostBuilder().UseKestrel()
-                                               .UseContentRoot(Directory.GetCurrentDirectory())
-                                               .UseStartup<Startup>()
-                                               .UseUrls(serverUrl)
-                                               .Build();
-
-                _webHost.Start();
-
-                return Task.FromResult(serverUrl);
-            }
-
-            #endregion ICommunicationListener
         }
     }
 }
